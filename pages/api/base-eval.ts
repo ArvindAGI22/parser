@@ -22,8 +22,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Fetch GitHub data
     const githubData = await fetchGitHubData(githubUrl);
     
-    // Scrape portfolio
-    const portfolioData = await scrapePortfolio(portfolioUrl);
+    // Scrape portfolio (with graceful fallback)
+    let portfolioData;
+    try {
+      portfolioData = await scrapePortfolio(portfolioUrl);
+    } catch (scrapeErr) {
+      console.error('Portfolio scrape failed:', scrapeErr);
+      portfolioData = { text: '', links: [], techKeywords: [], title: '' };
+    }
     
     // Prepare data for LLM
     const candidateData = {
