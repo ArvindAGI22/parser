@@ -278,15 +278,18 @@ export default function Home() {
             <div className="mb-6">
               <h3 className="text-lg font-medium mb-2">Suggested Roles</h3>
               <div className="flex flex-wrap gap-2">
-                {candidateData.baseEval.suggestedRoles.map((role, index) => (
-                  <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                    {role}
-                  </span>
-                ))}
+                {Array.isArray(candidateData.baseEval?.suggestedRoles)
+                  ? candidateData.baseEval.suggestedRoles.map((role, index) => (
+                      <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        {role}
+                      </span>
+                    ))
+                  : <span>-</span>
+                }
               </div>
             </div>
             
-            {candidateData.baseEval.redFlags && candidateData.baseEval.redFlags.length > 0 && (
+            {Array.isArray(candidateData.baseEval?.redFlags) && candidateData.baseEval.redFlags.length > 0 && (
               <div>
                 <h3 className="text-lg font-medium mb-2 text-red-600">Red Flags</h3>
                 <ul className="list-disc pl-5 text-red-700">
@@ -451,7 +454,7 @@ export default function Home() {
               </ul>
             </div>
             
-            {candidateData.detailedEval.gaps.length > 0 && (
+            {Array.isArray(candidateData.detailedEval?.gaps) && candidateData.detailedEval.gaps.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-lg font-medium mb-2">Gaps</h3>
                 <ul className="list-disc pl-5 text-yellow-700">
